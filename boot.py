@@ -11,16 +11,16 @@ esp.osdebug(None)
 import gc
 gc.collect()
 
-ssid = 'Hyperlink_5G'
-password = 'Home-Network01'
-mqtt_server = '192.168.0.200'
-mqtt_user = 'admin'
-mqtt_password = 'qszwax!'
+ssid = 'your wifi'
+password = 'your wifi password'
+mqtt_server = 'your mqtt server IP '
+mqtt_user = 'your mqtt user name'
+mqtt_password = 'your mqtt user password'
 
 client_id = ubinascii.hexlify(machine.unique_id())
-topic_sub = b'notification'
-topic_sub2 = b'Ant'
-topic_pub = b'hello'
+topic_sub = b'notification' #test Sub
+topic_sub2 = b'Ant' # real Sub
+topic_pub = b'hello' # message test
 
 last_message = 0
 message_interval = 5
