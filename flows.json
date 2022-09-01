@@ -1,0 +1,211 @@
+[
+    {
+        "id": "6c9f772193d0c63a",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f8aa0743a2034275",
+        "type": "mqtt in",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "topic": "Ant",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "2387a1c39d257ffa",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "73e0be8e4b6bb479"
+            ]
+        ]
+    },
+    {
+        "id": "73e0be8e4b6bb479",
+        "type": "json",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "41a8ceff99adb2dd"
+            ]
+        ]
+    },
+    {
+        "id": "49722b34452e5bcc",
+        "type": "debug",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "41a8ceff99adb2dd",
+        "type": "moment",
+        "z": "6c9f772193d0c63a",
+        "name": "Time Add",
+        "topic": "Ant",
+        "input": "",
+        "inputType": "date",
+        "inTz": "Europe/Warsaw",
+        "adjAmount": "0",
+        "adjType": "minutes",
+        "adjDir": "add",
+        "format": "YYYY-MM-DD HH:mm:ss",
+        "locale": "en-GB",
+        "output": "payload.Time",
+        "outputType": "msg",
+        "outTz": "Europe/Warsaw",
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "961886e0c4cf1e32",
+                "dc42849ec4b76fa3"
+            ]
+        ]
+    },
+    {
+        "id": "5a32928d9caff618",
+        "type": "mysql",
+        "z": "6c9f772193d0c63a",
+        "mydb": "a92c8c559cea90ac",
+        "name": "",
+        "x": 830,
+        "y": 200,
+        "wires": [
+            [
+                "49722b34452e5bcc"
+            ]
+        ]
+    },
+    {
+        "id": "961886e0c4cf1e32",
+        "type": "function",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "func": "msg.payload.Node = String(msg.payload.Node.substr(3));\nmsg.payload.Node = String(msg.payload.Node.replace(/['\"]+/g, ''));\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 360,
+        "wires": [
+            [
+                "6013e8de18fc83a4",
+                "f87900304bfc73b0"
+            ]
+        ]
+    },
+    {
+        "id": "6013e8de18fc83a4",
+        "type": "function",
+        "z": "6c9f772193d0c63a",
+        "name": "insert",
+        "func": "insert = \"INSERT INTO anthill (Moisture,Temperature,Humidity,Light,Time,Node) VALUES ('\" + msg.payload.Moisture +\"', '\" + msg.payload.Temperature +\"', '\" + msg.payload.Humidity +\"', '\" + msg.payload.Light + \"', '\" + msg.payload.Time + \"', '\" + msg.payload.Node + \"');\";\n\nmsg.topic = insert;\n\n\nreturn msg;\n\n\n\n\n   ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "5a32928d9caff618"
+            ]
+        ]
+    },
+    {
+        "id": "f87900304bfc73b0",
+        "type": "debug",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "dc42849ec4b76fa3",
+        "type": "debug",
+        "z": "6c9f772193d0c63a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2387a1c39d257ffa",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a92c8c559cea90ac",
+        "type": "MySQLdatabase",
+        "name": "Formicarium",
+        "host": "localhost",
+        "port": "3306",
+        "db": "formicarium",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]
