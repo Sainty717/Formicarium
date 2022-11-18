@@ -1,4 +1,4 @@
-# Complete project details at https://RandomNerdTutorials.com
+
 
 import time
 from umqtt.simple import MQTTClient
